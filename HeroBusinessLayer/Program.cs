@@ -17,7 +17,7 @@ namespace HeroBusinessLayer
             
             Log.Logger = new LoggerConfiguration()
            .Enrich.FromLogContext()
-           .WriteTo.File(@"c:\temp\log.txt")
+           .WriteTo.File(@"c:\temp\log2.txt")
            .CreateLogger();
 
 
@@ -38,6 +38,7 @@ namespace HeroBusinessLayer
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+               .UseSerilog()
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();

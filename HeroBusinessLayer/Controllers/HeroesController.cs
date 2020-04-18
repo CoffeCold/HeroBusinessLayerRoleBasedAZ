@@ -18,7 +18,6 @@ namespace HeroBusinessLayer.Controllers
 
         public HeroesController(ILogger<HeroesController> logger, IHeroesService heroesService )
         {
-
             _logger = logger;
             _heroesService = heroesService;
         }
@@ -26,7 +25,6 @@ namespace HeroBusinessLayer.Controllers
         [HttpGet]
         public IEnumerable<Heroes> Get()
         {
-
             _logger.LogInformation("Get heroes called"); 
             return _heroesService.GetAll();
         }
