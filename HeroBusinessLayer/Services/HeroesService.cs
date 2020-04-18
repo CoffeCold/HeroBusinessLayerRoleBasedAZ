@@ -20,10 +20,10 @@ namespace HeroBusinessLayer.Services
     {
         private readonly AppSettings _appSettings;
 
-        public HeroesService(IOptions<AppSettings> appSettings)
-        {
-            _appSettings = appSettings.Value;
-        }
+        //public HeroesService(IOptions<AppSettings> appSettings)
+        //{
+        //    _appSettings = appSettings.Value;
+        //}
 
         public HeroesService()
         {
