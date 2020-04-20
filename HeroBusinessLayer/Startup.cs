@@ -11,6 +11,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using HeroBusinessLayer.Services; 
+using HeroBusinessLayer.Models;
+using HeroBusinessLayer.Helpers;
+using System.Text;
+using Microsoft.EntityFrameworkCore;
 
 namespace HeroBusinessLayer
 {
@@ -26,9 +30,25 @@ namespace HeroBusinessLayer
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // Appsettings in appsettings.json used for DI services
+            var appSettingsSection = Configuration.GetSection("AppSettings");
+            services.Configure<AppSettings>(appSettingsSection);
+            var appSettings = appSettingsSection.Get<AppSettings>();
+
+            // Connection string used for DI context
+            var connectionStringsSection = Configuration.GetSection("ConnectionStrings");
+            services.Configure<ConnectionStrings>(connectionStringsSection);
+            var connectionstrings = connectionStringsSection.Get<ConnectionStrings>();
+
+
             services.AddScoped<IHeroesService, HeroesService>();
 
             services.AddControllers();
+            services.AddDbContext<AngularHeroesContext>(options =>
+                options.UseSqlServer(connectionstrings.AngularHeroesDbConstr)
+            );
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

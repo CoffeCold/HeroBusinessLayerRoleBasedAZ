@@ -20,6 +20,7 @@ namespace HeroBusinessLayer.Controllers
         {
             _logger = logger;
             _heroesService = heroesService;
+         
         }
         
         [HttpGet]

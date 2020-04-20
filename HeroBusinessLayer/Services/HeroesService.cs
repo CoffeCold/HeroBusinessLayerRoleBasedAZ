@@ -6,6 +6,7 @@ using HeroBusinessLayer.Models;
 using HeroBusinessLayer.Helpers;
 using Microsoft.Extensions.Options;
 
+
 namespace HeroBusinessLayer.Services
 {
     public interface IHeroesService
@@ -15,23 +16,22 @@ namespace HeroBusinessLayer.Services
 
     internal class HeroesService : IHeroesService
     {
+ 
+        private AngularHeroesContext _context;
         private readonly AppSettings _appSettings;
 
-        public HeroesService(IOptions<AppSettings> appSettings)
+        public HeroesService(IOptions<AppSettings> appSettings, AngularHeroesContext context)
         {
             _appSettings = appSettings.Value;
+            _context = context;
         }
 
-        public HeroesService()
-        {
-        }
-
-        public IEnumerable<Heroes> GetAll()
+         public IEnumerable<Heroes> GetAll()
         {
             List<Heroes> Heroes = new List<Heroes>();
-            using (AngularHeroesContext context = new AngularHeroesContext())
+            using (_context)
             {
-                Heroes = context.Heroes.ToList();
+                Heroes = _context.Heroes.ToList();
             }
             return Heroes;
         }

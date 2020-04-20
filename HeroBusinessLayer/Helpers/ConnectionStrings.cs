@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 
 namespace HeroBusinessLayer.Helpers
 {
-    public class AppSettings
+    public class ConnectionStrings
     {
+        public string AngularHeroesDbConstr { get; set; }
 
-        public string Secret { get; set; }
-        public string Foo { get; set; }
     }
+  
 }
