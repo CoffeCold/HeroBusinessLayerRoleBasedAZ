@@ -10,7 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using HeroBusinessLayer.Services; 
+using HeroBusinessLayer.Services;
 using HeroBusinessLayer.Models;
 using HeroBusinessLayer.Helpers;
 using System.Text;
@@ -26,10 +26,24 @@ namespace HeroBusinessLayer
         }
 
         public IConfiguration Configuration { get; }
+        readonly string AllThinkableOrigins = "_myAllThinkableOrigins";
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: AllThinkableOrigins,
+                                  builder =>
+                                  {
+                                      builder.SetIsOriginAllowedToAllowWildcardSubdomains()
+      .WithOrigins("*")
+      .AllowAnyMethod()
+      .AllowAnyHeader()
+      .Build();
+                                  });
+            });
+
             // Appsettings in appsettings.json used for DI services
             var appSettingsSection = Configuration.GetSection("AppSettings");
             services.Configure<AppSettings>(appSettingsSection);
@@ -57,6 +71,8 @@ namespace HeroBusinessLayer
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseCors(AllThinkableOrigins);
+
             }
 
             app.UseHttpsRedirection();
