@@ -10,13 +10,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using HeroBusinessLayer.Services;
-using HeroBusinessLayer.Models;
-using HeroBusinessLayer.Helpers;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
+using HeroBusinessLayerRoleBased.Helpers;
+using HeroBusinessLayerRoleBased.Models;
+using HeroBusinessLayerRoleBased.Services;
 
-namespace HeroBusinessLayer
+namespace HeroBusinessLayerRoleBased
 {
     public class Startup
     {

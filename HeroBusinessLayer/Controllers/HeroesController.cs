@@ -4,11 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using HeroBusinessLayer.Services;
-using HeroBusinessLayer.Models;
 using System.Reflection.Metadata.Ecma335;
+using HeroBusinessLayerRoleBased.Models;
+using HeroBusinessLayerRoleBased.Services;
 
-namespace HeroBusinessLayer.Controllers
+namespace HeroBusinessLayerRoleBased.Controllers
 {
     [ApiController]
     [Route("[controller]")]
@@ -27,7 +27,7 @@ namespace HeroBusinessLayer.Controllers
         [HttpGet]
         public IActionResult Get(int? id, string name)
         {
-            if (!String.IsNullOrEmpty(name))
+            if (!string.IsNullOrEmpty(name))
             {
                 _logger.LogInformation("GetById heroes called for name {0}", name);
 
@@ -85,13 +85,13 @@ namespace HeroBusinessLayer.Controllers
         public async Task<ActionResult<Heroes>> DeleteHero(int? id)
         {
             _logger.LogInformation("Delete heroes called for id {0}", id);
-            Heroes hero =  await _heroesService.DeleteOneByID(id);
+            Heroes hero = await _heroesService.DeleteOneByID(id);
             if (hero != null)
             {
                 return hero;
             }
             else
-            {               
+            {
                 return NotFound();
             }
         }
@@ -100,7 +100,7 @@ namespace HeroBusinessLayer.Controllers
         public async Task<ActionResult<Heroes>> UpdateHero(Heroes hero)
         {
             _logger.LogInformation("Put heroes called for id {0}", hero.Id);
-            await _heroesService.UpdateOne(hero); 
+            await _heroesService.UpdateOne(hero);
             if (hero != null)
             {
                 return hero;
@@ -108,7 +108,7 @@ namespace HeroBusinessLayer.Controllers
             else
             {
                 return NotFound();
-            }        
+            }
         }
 
 

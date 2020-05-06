@@ -8,13 +8,13 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Serilog;
 
-namespace HeroBusinessLayer
+namespace HeroBusinessLayerRoleBased
 {
     public class Program
     {
         public static void Main(string[] args)
         {
-            
+
             Log.Logger = new LoggerConfiguration()
            .Enrich.FromLogContext()
            .WriteTo.File(@"c:\temp\log2.txt")

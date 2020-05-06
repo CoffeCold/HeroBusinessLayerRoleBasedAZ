@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using HeroBusinessLayer.Models;
-using HeroBusinessLayer.Helpers;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.RegularExpressions;
+using HeroBusinessLayerRoleBased.Helpers;
+using HeroBusinessLayerRoleBased.Models;
 
-namespace HeroBusinessLayer.Services
+namespace HeroBusinessLayerRoleBased.Services
 {
     public interface IHeroesService
     {
@@ -53,17 +53,17 @@ namespace HeroBusinessLayer.Services
 
         public async Task<Heroes> AddOne(Heroes hero)
         {
-            Heroes lasthero =  _context.Heroes.OrderByDescending(u => u.Id).FirstOrDefault();
+            Heroes lasthero = _context.Heroes.OrderByDescending(u => u.Id).FirstOrDefault();
             if (lasthero != null)
             {
-                hero.Id = lasthero.Id + 1; 
+                hero.Id = lasthero.Id + 1;
                 _context.Heroes.Add(hero);
                 if (await _context.SaveChangesAsync() > 0)
                 {
-                    return  hero;
+                    return hero;
                 }
             }
-            return null; 
+            return null;
         }
 
         public async Task<Heroes> UpdateOne(Heroes hero)

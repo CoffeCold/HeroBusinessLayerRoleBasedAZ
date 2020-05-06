@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace HeroBusinessLayer.Models
+namespace HeroBusinessLayerRoleBased.Models
 {
     public partial class Heroes
     {
