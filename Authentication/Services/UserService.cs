@@ -23,11 +23,11 @@ namespace Authentication.Services
 
     public class UserService : IUserService
     {
-        private readonly AuthenticationSettings _appSettings;
-        //private static string[] allowedroles = { "HeroesReader", "HeroesWriter" };
+        private readonly AuthenticationSettings _authSettings;
+        //private static string[] AllowedRoles = { "HeroesReader", "HeroesWriter" };
         public UserService(IOptions<AuthenticationSettings> authSettings)
         {
-            _appSettings = authSettings.Value;         
+            _authSettings = authSettings.Value;         
         }
 
         public  User ValidateCredentials(string userName, string password)
@@ -58,6 +58,7 @@ namespace Authentication.Services
             }
             catch (Exception ex)
             {
+
                 return null;
             }
         }
@@ -67,7 +68,7 @@ namespace Authentication.Services
             List<Role> roleslist = new List<Role>();
             foreach (Principal roleprincipal in roles)
             {
-                if (!String.IsNullOrEmpty(_appSettings.AllowedRoles.Where(role => role == roleprincipal.Name).FirstOrDefault()))
+                if (!String.IsNullOrEmpty(_authSettings.AllowedRoles.Where(role => role == roleprincipal.Name).FirstOrDefault()))
                 {
                     Role role = new Role();
                     role.roletype = roleprincipal.Name;
@@ -94,7 +95,7 @@ namespace Authentication.Services
             claimlist.Add(new Claim(ClaimTypes.Name, user.Id.ToString()));
             // authentication successful so generate jwt token
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
+            var key = Encoding.ASCII.GetBytes(_authSettings.Secret);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claimlist.ToArray()),

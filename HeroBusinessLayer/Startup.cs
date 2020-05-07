@@ -49,7 +49,8 @@ namespace HeroBusinessLayerRoleBased
                                   });
             });
 
- 
+            services.AddControllers();
+
             // Appsettings in appsettings.json used for DI services
             var authSettingsSection = Configuration.GetSection("AuthenticationSettings");
             services.Configure<AuthenticationSettings>(authSettingsSection);
@@ -60,7 +61,6 @@ namespace HeroBusinessLayerRoleBased
             services.Configure<ConnectionStrings>(connectionStringsSection);
             var connectionstrings = connectionStringsSection.Get<ConnectionStrings>();
 
-            services.AddControllers();
 
             var key = Encoding.ASCII.GetBytes(authSettings.Secret);
             services.AddAuthentication(x =>
@@ -80,6 +80,7 @@ namespace HeroBusinessLayerRoleBased
                     ValidateAudience = false
                 };
             });
+
 
             services.AddScoped<IHeroesService, HeroesService>();
             services.AddScoped<IUserService, UserService>();
@@ -105,6 +106,8 @@ namespace HeroBusinessLayerRoleBased
 
             app.UseRouting();
 
+ 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

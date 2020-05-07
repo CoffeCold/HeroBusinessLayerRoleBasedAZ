@@ -38,11 +38,11 @@
 //            services.AddControllers();
 
 //            // configure strongly typed settings objects
-//            var appSettingsSection = Configuration.GetSection("AppSettings");
-//            services.Configure<AppSettings>(appSettingsSection);
+//            var appSettingsSection = Configuration.GetSection("AuthenticationSettings");
+//            services.Configure<AuthenticationSettings>(appSettingsSection);
 
 //            // configure jwt authentication
-//            var appSettings = appSettingsSection.Get<AppSettings>();
+//            var appSettings = appSettingsSection.Get<AuthenticationSettings>();
 //            var key = Encoding.ASCII.GetBytes(appSettings.Secret);
 //            services.AddAuthentication(x =>
 //            {
