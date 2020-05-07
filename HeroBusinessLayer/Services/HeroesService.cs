@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Options;
-using Microsoft.AspNetCore.Mvc;
-using System.Text.RegularExpressions;
-using HeroBusinessLayerRoleBased.Helpers;
 using HeroBusinessLayerRoleBased.Models;
 
 namespace HeroBusinessLayerRoleBased.Services
@@ -24,11 +19,9 @@ namespace HeroBusinessLayerRoleBased.Services
     {
 
         private AngularHeroesContext _context;
-        private readonly AppSettings _appSettings;
 
-        public HeroesService(IOptions<AppSettings> appSettings, AngularHeroesContext context)
+        public HeroesService( AngularHeroesContext context)
         {
-            _appSettings = appSettings.Value;
             _context = context;
         }
 
