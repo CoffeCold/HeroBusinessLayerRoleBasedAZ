@@ -22,7 +22,8 @@ namespace HeroBusinessLayerRoleBased.Controllers
         }
 
 
-        [Authorize(Roles = "HeroesReader")]
+        //[Authorize(Roles = "HeroesReader")]
+        [AllowAnonymous]
         [HttpGet]
         public IActionResult GetAll()
         {
@@ -30,8 +31,9 @@ namespace HeroBusinessLayerRoleBased.Controllers
             return Ok(users);
         }
 
-        [Authorize(Roles = "HeroesReader")]
+        //[Authorize(Roles = "HeroesReader")]
         [HttpGet("{id}")]
+        [AllowAnonymous]
         public IActionResult GetById(int id)
         {
 
