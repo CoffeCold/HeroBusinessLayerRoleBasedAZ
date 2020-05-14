@@ -4,6 +4,7 @@ using Authentication.Entities;
 using Authentication.Models;
 using Microsoft.AspNetCore.Authorization;
 using Authentication.Controllers;
+using Microsoft.Extensions.Logging;
 
 namespace HeroBusinessLayerRoleBased.Controllers
 {
@@ -13,12 +14,12 @@ namespace HeroBusinessLayerRoleBased.Controllers
     public class AuthenticationController : UsersController
     {
         private IUserService _userService;
-
-        public AuthenticationController(IUserService userService)
+        private readonly ILogger<HeroesController> _logger;
+        public AuthenticationController(ILogger<HeroesController> logger, IUserService userService)
             :base(userService)
         {
             _userService = userService;
-
+            _logger = logger;
         }
 
 
@@ -26,6 +27,8 @@ namespace HeroBusinessLayerRoleBased.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
+            _logger.LogInformation("GetAll users called");
+
             var users = _userService.GetAll();
             return Ok(users);
         }
