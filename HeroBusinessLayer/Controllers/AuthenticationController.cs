@@ -7,7 +7,7 @@ using Authentication.Controllers;
 
 namespace HeroBusinessLayerRoleBased.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [ApiController]
     [Route("[controller]")]
     public class AuthenticationController : UsersController
@@ -22,8 +22,7 @@ namespace HeroBusinessLayerRoleBased.Controllers
         }
 
 
-        //[Authorize(Roles = "HeroesReader")]
-        [AllowAnonymous]
+        [Authorize(Roles = "HeroesReader")]
         [HttpGet]
         public IActionResult GetAll()
         {
@@ -31,9 +30,8 @@ namespace HeroBusinessLayerRoleBased.Controllers
             return Ok(users);
         }
 
-        //[Authorize(Roles = "HeroesReader")]
+        [Authorize(Roles = "HeroesReader")]
         [HttpGet("{id}")]
-        [AllowAnonymous]
         public IActionResult GetById(int id)
         {
 

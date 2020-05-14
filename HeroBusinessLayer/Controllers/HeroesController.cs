@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace HeroBusinessLayerRoleBased.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [ApiController]
     [Route("[controller]")]
     public class HeroesController : ControllerBase
