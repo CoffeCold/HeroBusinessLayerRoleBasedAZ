@@ -14,26 +14,28 @@ namespace HeroBusinessLayerRoleBased.Controllers
     public class AuthenticationController : UsersController
     {
         private IUserService _userService;
-        private readonly ILogger<HeroesController> _logger;
-        public AuthenticationController(ILogger<HeroesController> logger, IUserService userService)
+        //private readonly ILogger<HeroesController> _logger;
+        public AuthenticationController( IUserService userService)
             :base(userService)
         {
             _userService = userService;
-            _logger = logger;
+            //_logger = logger;
         }
 
 
         //[Authorize(Roles = "HeroesReader")]
+        [AllowAnonymous]
         [HttpGet]
         public IActionResult GetAll()
         {
-            _logger.LogInformation("GetAll users called");
+            //_logger.LogInformation("GetAll users called");
 
             var users = _userService.GetAll();
             return Ok(users);
         }
 
         //[Authorize(Roles = "HeroesReader")]
+        [AllowAnonymous]
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
