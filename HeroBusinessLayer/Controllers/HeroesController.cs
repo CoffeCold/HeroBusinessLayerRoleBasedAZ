@@ -26,7 +26,7 @@ namespace HeroBusinessLayerRoleBased.Controllers
 
         }
 
-        [Authorize(Roles = "HeroesReader")]
+        //[Authorize(Roles = "HeroesReader")]
         [HttpGet]
         public IActionResult Get(int? id, string name)
         {
@@ -54,7 +54,7 @@ namespace HeroBusinessLayerRoleBased.Controllers
 
 
 
-        [Authorize(Roles = "HeroesReader")]
+        //[Authorize(Roles = "HeroesReader")]
         [HttpGet("{id}")]
         public IActionResult GetById(int? id)
         {
@@ -69,7 +69,7 @@ namespace HeroBusinessLayerRoleBased.Controllers
         }
 
 
-        [Authorize(Roles = "HeroesWriter")]
+        //[Authorize(Roles = "HeroesWriter")]
         [HttpPost]
         public async Task<ActionResult<Heroes>> CreateHero(Heroes hero)
         {
@@ -86,7 +86,7 @@ namespace HeroBusinessLayerRoleBased.Controllers
             }
         }
 
-        [Authorize(Roles = "HeroesWriter")]
+        //[Authorize(Roles = "HeroesWriter")]
         [HttpDelete("{id}")]
         public async Task<ActionResult<Heroes>> DeleteHero(int? id)
         {
@@ -102,7 +102,7 @@ namespace HeroBusinessLayerRoleBased.Controllers
             }
         }
 
-        [Authorize(Roles = "HeroesWriter")]
+        //[Authorize(Roles = "HeroesWriter")]
         [HttpPut]
         public async Task<ActionResult<Heroes>> UpdateHero(Heroes hero)
         {
