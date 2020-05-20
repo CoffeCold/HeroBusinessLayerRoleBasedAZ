@@ -109,7 +109,7 @@ namespace HeroBusinessLayerRoleBased
         // this method allows a injected logger and is called, we use logging to check the configuration 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)
         {
-            logger.LogInformation("Configure called");
+            logger.LogInformation("Configure called  ");
 
 
             logger.LogInformation("AuthenticationSettings Secrets string {0}", Configuration.GetValue<String>("Secret"));
