@@ -1,14 +1,15 @@
+using Authentication.Entities;
+using Authentication.Helpers;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
+using System.DirectoryServices.AccountManagement;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
-using Authentication.Entities;
-using Authentication.Helpers;
-using System.DirectoryServices.AccountManagement;
 
 
 namespace Authentication.Services
@@ -24,37 +25,62 @@ namespace Authentication.Services
     public class UserService : IUserService
     {
         private readonly AuthenticationSettings _authSettings;
-        //private static string[] AllowedRoles = { "HeroesReader", "HeroesWriter" };
-        public UserService(IOptions<AuthenticationSettings> authSettings)
+        private readonly ILogger<UserService> _logger;
+
+        public UserService(IOptions<AuthenticationSettings> authSettings, ILogger<UserService> logger)
         {
-            _authSettings = authSettings.Value;         
+            _logger = logger;
+            _logger.LogInformation("UserService constructor called");
+
+
+            _authSettings = authSettings.Value;
+
+            _logger.LogInformation("UserService constructor ended");
         }
 
-        public  User ValidateCredentials(string userName, string password)
+        public User ValidateCredentials(string userName, string password)
         {
             try
             {
-                //when connecting to a DC : new PrincipalContext(ContextType.Domain, "ESTAGIOIT", "CN=Users,DC=estagioit,DC=local");
-                //optionally a container (as an LDAP path - a "distinguished" name, full path but without any LDAP:// prefix)
-                using (var adContext = new PrincipalContext(ContextType.Machine, null))
-                {
-                    if (adContext.ValidateCredentials(userName, password))
-                    {
-                        //user
-                        UserPrincipal usr = new UserPrincipal(adContext);
-                        usr.SamAccountName = userName;
-                        var searcher = new PrincipalSearcher(usr);
-                        usr = searcher.FindOne() as UserPrincipal;
-                        User user = new User();
-                        user.WithoutPassword(usr);
+                _logger.LogInformation("ValidateCredentials UserService started");
+                User user_temp = new User();
 
-                        //roles
-                         PrincipalSearchResult<Principal> groups = usr.GetAuthorizationGroups();
-                        user.Roles = GetRoles(groups);
-                        return user;
-                    }
+                user_temp.FirstName = userName;
+                user_temp.Id = 1;
+                user_temp.LastName = "";
+                if (userName == "jimmywoe")
+                {
+                    user_temp.Roles = new Role[] { new Role() { roletype = "HeroesWriter" }, new Role() { roletype = "HeroesReader" } };
                 }
-                return null;
+                else
+                {
+                    user_temp.Roles = new Role[] { new Role() { roletype = "HeroesReader" } };
+
+                }
+                _logger.LogInformation("ValidateCredentials UserService ended");
+
+                return user_temp;
+                ////when connecting to a DC : new PrincipalContext(ContextType.Domain, "ESTAGIOIT", "CN=Users,DC=estagioit,DC=local");
+                ////optionally a container (as an LDAP path - a "distinguished" name, full path but without any LDAP:// prefix)
+                //using (var adContext = new PrincipalContext(ContextType.Machine, null))
+                //{
+                //    if (adContext.ValidateCredentials(userName, password))
+                //    {
+                //        //user
+                //        UserPrincipal usr = new UserPrincipal(adContext);
+                //        usr.SamAccountName = userName;
+                //        var searcher = new PrincipalSearcher(usr);
+                //        usr = searcher.FindOne() as UserPrincipal;
+                //        User user = new User();
+                //        user.WithoutPassword(usr);
+
+                //        //roles
+                //         PrincipalSearchResult<Principal> groups = usr.GetAuthorizationGroups();
+                //        user.Roles = GetRoles(groups);
+                //        return user;
+                //    }
+                //}
+                //return null;
             }
             catch (Exception ex)
             {
@@ -63,7 +89,7 @@ namespace Authentication.Services
             }
         }
 
-        private  Role[] GetRoles(PrincipalSearchResult<Principal> roles)
+        private Role[] GetRoles(PrincipalSearchResult<Principal> roles)
         {
             List<Role> roleslist = new List<Role>();
             foreach (Principal roleprincipal in roles)
@@ -81,7 +107,8 @@ namespace Authentication.Services
 
         public User Authenticate(string username, string password)
         {
-            //User user = _users.SingleOrDefault(x => x.Username == username && x.Password == password);
+            _logger.LogInformation("Authenticate UserService started");
+
             // hook on to AD here...
             User user = ValidateCredentials(username, password);
             // return null if user not found
@@ -104,6 +131,7 @@ namespace Authentication.Services
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
             user.Token = tokenHandler.WriteToken(token);
+            _logger.LogInformation("Authenticate UserService ended");
 
             return user.WithoutPassword();
         }
@@ -115,11 +143,11 @@ namespace Authentication.Services
 
             List<Role> rolesdoe = new List<Role>();
             rolesdoe.Add(new Role() { roletype = "def" });
-            User doe = new User { Id = 1, FirstName = "Does", LastName = "not matter", Username = "doesnotmatter", Password = "doe", Roles = rolesdoe.ToArray() };
+            User doe = new User { Id = 1, FirstName = "Does", LastName = "not matter", Username = "doeviinotmatter", Password = "doe", Roles = rolesdoe.ToArray() };
 
             List<Role> roleswoe = new List<Role>();
             roleswoe.Add(new Role() { roletype = "abc" });
-            User woe = new User { Id = 1, FirstName = "Does", LastName = "not matter as well", Username = "doenotmatter", Password = "woe", Roles = roleswoe.ToArray() };
+            User woe = new User { Id = 1, FirstName = "Does", LastName = "not matter as well", Username = "woeviinotmatter", Password = "woe", Roles = roleswoe.ToArray() };
 
             _users.Add(doe);
             _users.Add(woe);

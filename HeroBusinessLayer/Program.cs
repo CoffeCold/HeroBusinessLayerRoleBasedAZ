@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Serilog;
+//using Serilog;
 
 namespace HeroBusinessLayerRoleBased
 {
@@ -15,30 +15,37 @@ namespace HeroBusinessLayerRoleBased
         public static void Main(string[] args)
         {
 
-            Log.Logger = new LoggerConfiguration()
-           .Enrich.FromLogContext()
-           .WriteTo.File(@"c:\temp\log2.txt")
-           .CreateLogger();
+            // Log.Logger = new LoggerConfiguration()
+            //.Enrich.FromLogContext()
+            //.WriteTo.File(@"c:\temp\log2.txt")
+            //.CreateLogger();
 
 
             try
             {
-                Log.Information("Starting up");
+                //Log.Information("Starting up");
                 CreateHostBuilder(args).Build().Run();
             }
             catch (Exception ex)
             {
-                Log.Fatal(ex, "Application start-up failed");
+                //Log.Fatal(ex, "Application start-up failed");
             }
             finally
             {
-                Log.CloseAndFlush();
+                //Log.CloseAndFlush();
             }
         }
 
+
+
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-               .UseSerilog()
+                      //.UseSerilog()
+                      .ConfigureLogging(logging =>
+                      {
+                          logging.ClearProviders();
+                          logging.AddConsole();
+                      })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();

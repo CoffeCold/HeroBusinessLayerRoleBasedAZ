@@ -8,33 +8,32 @@ using Microsoft.Extensions.Logging;
 
 namespace HeroBusinessLayerRoleBased.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class AuthenticationController : UsersController
     {
         private IUserService _userService;
-        //private readonly ILogger<HeroesController> _logger;
-        public AuthenticationController( IUserService userService)
-            :base(userService)
+        private readonly ILogger<AuthenticationController> _logger;
+        public AuthenticationController( IUserService userService, ILogger<AuthenticationController> logger)
+            :base(userService, logger)
         {
             _userService = userService;
-            //_logger = logger;
+            _logger = logger; 
         }
 
 
-        //[Authorize(Roles = "HeroesReader")]
+        [Authorize(Roles = "HeroesReader")]
         [AllowAnonymous]
         [HttpGet]
         public IActionResult GetAll()
         {
-            //_logger.LogInformation("GetAll users called");
-
+            _logger.LogInformation("GetAll users called");
             var users = _userService.GetAll();
             return Ok(users);
         }
 
-        //[Authorize(Roles = "HeroesReader")]
+        [Authorize(Roles = "HeroesReader")]
         [AllowAnonymous]
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
